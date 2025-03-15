@@ -122,7 +122,7 @@ const CustomerDashboard = () => {
             className="mt-4 md:mt-0"
             onClick={() => {
               logout();
-              navigate('/login');
+              navigate('/');
             }}
           >
             Logout
