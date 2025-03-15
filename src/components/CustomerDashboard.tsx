@@ -15,7 +15,7 @@ const CustomerDashboard = () => {
   const chatContainerRef = useRef(null);
 
   const toggleChat = () => {
-    setIsChatOpen(prev => !prev);
+    setIsChatOpen((prev) => !prev);
     if (!isChatOpen) {
       setTimeout(() => {
         const inputElement = document.querySelector('#chat-input');
@@ -33,10 +33,18 @@ const CustomerDashboard = () => {
           <div className="container mx-auto px-4 py-3 flex justify-between items-center">
             <Logo size="md" />
             <nav className="hidden md:flex gap-6">
-              <a href="#" className="text-gray-700 hover:text-gray-900">Home</a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">Shop</a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">About</a>
-              <a href="#" className="text-gray-700 hover:text-gray-900">Contact</a>
+              <a href="#" className="text-gray-700 hover:text-gray-900">
+                Home
+              </a>
+              <a href="#" className="text-gray-700 hover:text-gray-900">
+                Shop
+              </a>
+              <a href="#" className="text-gray-700 hover:text-gray-900">
+                About
+              </a>
+              <a href="#" className="text-gray-700 hover:text-gray-900">
+                Contact
+              </a>
             </nav>
             <div className="flex items-center gap-4">
               <Button
@@ -62,9 +70,12 @@ const CustomerDashboard = () => {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-center">
               <div className="container mx-auto px-4 text-white">
-                <h1 className="text-5xl font-bold mb-4">Discover Cutting-Edge Tech</h1>
+                <h1 className="text-5xl font-bold mb-4">
+                  Discover Cutting-Edge Tech
+                </h1>
                 <p className="text-xl">
-                  Shop our curated selection of the best laptops, smartphones, and tablets
+                  Shop our curated selection of the best laptops, smartphones, and
+                  tablets
                 </p>
               </div>
             </div>
@@ -72,7 +83,9 @@ const CustomerDashboard = () => {
 
           {/* Featured Products */}
           <section className="container mx-auto px-4 py-12">
-            <h2 className="text-3xl font-bold mb-8 text-center">Featured Products</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center">
+              Featured Products
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {products.map((product) => (
                   <Card
@@ -85,7 +98,9 @@ const CustomerDashboard = () => {
                           alt={product.name}
                           className="w-full h-48 object-cover rounded-md mb-4"
                       />
-                      <h3 className="text-xl font-semibold mb-2">{product.name}</h3>
+                      <h3 className="text-xl font-semibold mb-2">
+                        {product.name}
+                      </h3>
                       <p className="text-lg font-bold text-gray-800">
                         ${product.price.USD.toFixed(2)}
                       </p>
@@ -131,14 +146,19 @@ const CustomerDashboard = () => {
               <div
                   ref={chatContainerRef}
                   className="w-full max-w-lg h-[80vh] bg-white rounded-xl shadow-2xl overflow-hidden animate-fade-in"
-                  onClick={e => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex justify-between items-center p-4 border-b">
                   <div className="flex items-center gap-2">
                     <Bot className="text-purple-600 h-5 w-5" />
                     <h3 className="font-semibold">MakerBot Assistant</h3>
                   </div>
-                  <Button variant="ghost" size="icon" onClick={toggleChat} className="h-8 w-8">
+                  <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={toggleChat}
+                      className="h-8 w-8"
+                  >
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
