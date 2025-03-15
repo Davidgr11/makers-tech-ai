@@ -1,3 +1,4 @@
+
 import { MessageType } from '@/components/ChatMessage';
 import { ProductCategory } from '@/components/ProductSelector';
 import { getAvailableProducts, getProductById, products, Product, UserPreference, getProductRecommendations } from '@/data/products';
@@ -38,7 +39,7 @@ export const getProductGreeting = (product: ProductCategory): MessageType => {
 
 // Format product info for display
 const formatProductInfo = (product: Product): string => {
-  return `${product.name} (${product.type}) - $${product.price.toFixed(2)} - ${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
+  return `${product.name} (${product.type}) - $${product.price.USD.toFixed(2)} - ${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
 ${product.description}`;
 };
 
@@ -49,7 +50,7 @@ const formatProductDetails = (product: Product): string => {
     .join('\n');
   
   return `${product.name} (${product.type})
-Price: $${product.price.toFixed(2)}
+Price: $${product.price.USD.toFixed(2)}
 Availability: ${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
 Description: ${product.description}
 
@@ -65,7 +66,7 @@ const getAvailableProductsList = (): string => {
   }
   
   return `Available products (${available.length}):
-${available.map((p, i) => `${i+1}. ${p.name} (${p.type}) - $${p.price.toFixed(2)} - ${p.stock} in stock`).join('\n')}`;
+${available.map((p, i) => `${i+1}. ${p.name} (${p.type}) - $${p.price.USD.toFixed(2)} - ${p.stock} in stock`).join('\n')}`;
 };
 
 // Check if query contains a product name
@@ -221,7 +222,7 @@ const processRecommendationStep = (query: string): string => {
       if (highRecommended.length > 0) {
         response += "HIGHLY RECOMMENDED:\n";
         highRecommended.forEach((r, i) => {
-          response += `${i+1}. ${r.product.name} - $${r.product.price.toFixed(2)} - ${r.product.description}\n`;
+          response += `${i+1}. ${r.product.name} - $${r.product.price.USD.toFixed(2)} - ${r.product.description}\n`;
         });
         response += "\n";
       }
@@ -229,7 +230,7 @@ const processRecommendationStep = (query: string): string => {
       if (mediumRecommended.length > 0) {
         response += "ALSO RECOMMENDED:\n";
         mediumRecommended.forEach((r, i) => {
-          response += `${i+1}. ${r.product.name} - $${r.product.price.toFixed(2)}\n`;
+          response += `${i+1}. ${r.product.name} - $${r.product.price.USD.toFixed(2)}\n`;
         });
         response += "\n";
       }
@@ -237,7 +238,7 @@ const processRecommendationStep = (query: string): string => {
       if (lowRecommended.length > 0) {
         response += "OTHER OPTIONS:\n";
         lowRecommended.forEach((r, i) => {
-          response += `${i+1}. ${r.product.name} - $${r.product.price.toFixed(2)}\n`;
+          response += `${i+1}. ${r.product.name} - $${r.product.price.USD.toFixed(2)}\n`;
         });
       }
       
@@ -279,7 +280,7 @@ export const getResponseForQuery = (
   if (normalizedQuery.includes('price') || normalizedQuery.includes('cost') || normalizedQuery.includes('how much')) {
     const foundProduct = findProductInQuery(query);
     if (foundProduct) {
-      return createBotMessage(`The ${foundProduct.name} costs $${foundProduct.price.toFixed(2)}. ${foundProduct.stock > 0 ? `We currently have ${foundProduct.stock} in stock.` : "Unfortunately, it's currently out of stock."}`);
+      return createBotMessage(`The ${foundProduct.name} costs $${foundProduct.price.USD.toFixed(2)}. ${foundProduct.stock > 0 ? `We currently have ${foundProduct.stock} in stock.` : "Unfortunately, it's currently out of stock."}`);
     }
   }
   
@@ -289,7 +290,7 @@ export const getResponseForQuery = (
     const foundProduct = findProductInQuery(query);
     if (foundProduct) {
       return createBotMessage(foundProduct.stock > 0 
-        ? `Yes, the ${foundProduct.name} is in stock! We currently have ${foundProduct.stock} units available for $${foundProduct.price.toFixed(2)} each.` 
+        ? `Yes, the ${foundProduct.name} is in stock! We currently have ${foundProduct.stock} units available for $${foundProduct.price.USD.toFixed(2)} each.` 
         : `I'm sorry, the ${foundProduct.name} is currently out of stock. Would you like me to suggest similar alternatives?`);
     }
     
@@ -297,7 +298,7 @@ export const getResponseForQuery = (
     if (typeProducts) {
       const availableOfType = typeProducts.filter(p => p.stock > 0);
       if (availableOfType.length > 0) {
-        return createBotMessage(`We have ${availableOfType.length} ${typeProducts[0].type.toLowerCase()}${availableOfType.length > 1 ? 's' : ''} available:\n\n${availableOfType.map((p, i) => `${i+1}. ${p.name} - $${p.price.toFixed(2)} - ${p.stock} in stock`).join('\n')}`);
+        return createBotMessage(`We have ${availableOfType.length} ${typeProducts[0].type.toLowerCase()}${availableOfType.length > 1 ? 's' : ''} available:\n\n${availableOfType.map((p, i) => `${i+1}. ${p.name} - $${p.price.USD.toFixed(2)} - ${p.stock} in stock`).join('\n')}`);
       } else {
         return createBotMessage(`I'm sorry, we don't have any ${typeProducts[0].type.toLowerCase()}s in stock at the moment. Would you like to see other product categories?`);
       }

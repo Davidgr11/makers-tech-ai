@@ -41,9 +41,9 @@ const AdminDashboard = () => {
   
   // Data for price range
   const priceRanges = {
-    'Under $500': products.filter(p => p.price < 500).length,
-    '$500-$1000': products.filter(p => p.price >= 500 && p.price < 1000).length,
-    'Over $1000': products.filter(p => p.price >= 1000).length,
+    'Under $500': products.filter(p => p.price.USD < 500).length,
+    '$500-$1000': products.filter(p => p.price.USD >= 500 && p.price.USD < 1000).length,
+    'Over $1000': products.filter(p => p.price.USD >= 1000).length,
   };
   
   const priceData = [
@@ -192,7 +192,7 @@ const AdminDashboard = () => {
                       <tr key={product.id} className="border-b">
                         <td className="p-3">{product.name}</td>
                         <td className="p-3">{product.type}</td>
-                        <td className="p-3">${product.price.toFixed(2)}</td>
+                        <td className="p-3">${product.price.USD.toFixed(2)}</td>
                         <td className="p-3">{product.stock}</td>
                         <td className="p-3">
                           <span
