@@ -228,7 +228,7 @@ const LoginForm = () => {
       
       <div className="text-center text-sm text-muted-foreground mt-4 p-4 bg-gray-50 rounded-lg">
         <p>For demo purposes:</p>
-        <p className="font-medium text-purple-600">User account: costumer@makerstech.com</p>
+        <p className="font-medium text-purple-600">Customer account: customer@makerstech.com</p>
         <p className="font-medium text-green-600">Admin account: admin@makerstech.com</p>
         <p>(For both accounts you can use the password: Makers)</p>
         <p>Also you can create a real account in the sign up tab</p>
