@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import Logo from './Logo';
 import ChatInterface from './ChatInterface';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useAuth } from '@/contexts/AuthContext';
 
 const CATEGORIES = [
   { id: 'laptops', name: 'Laptops', icon: <Laptop className="h-10 w-10" />, color: 'bg-blue-100 text-blue-700' },
@@ -20,6 +20,7 @@ const CustomerDashboard = () => {
   const [alertCategory, setAlertCategory] = useState<string | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const handleCategoryClick = (category: string) => {
@@ -29,8 +30,6 @@ const CustomerDashboard = () => {
 
   const toggleChat = () => {
     setIsChatOpen(prev => !prev);
-    
-    // Focus the chat input when opening
     if (!isChatOpen) {
       setTimeout(() => {
         const inputElement = document.querySelector('#chat-input') as HTMLInputElement;
@@ -45,7 +44,6 @@ const CustomerDashboard = () => {
       <header className="bg-white shadow-sm border-b sticky top-0 z-10">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <Logo size="md" />
-          
           <div className="flex items-center gap-4">
             <Button 
               onClick={toggleChat}
@@ -79,7 +77,6 @@ const CustomerDashboard = () => {
         {/* Product Categories */}
         <div className="container mx-auto px-4 py-12">
           <h2 className="text-2xl font-bold mb-8 text-center">Browse Categories</h2>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {CATEGORIES.map((category) => (
               <Card 
@@ -119,15 +116,13 @@ const CustomerDashboard = () => {
           <div className="text-sm text-gray-600">
             © {new Date().getFullYear()} Makers Tech. All rights reserved.
           </div>
-          
           <Button 
             variant="outline" 
             size="sm" 
             className="mt-4 md:mt-0"
             onClick={() => {
-              localStorage.removeItem('makers_tech_user');
-              navigate('/');
-              window.location.reload();
+              logout();
+              navigate('/login');
             }}
           >
             Logout
