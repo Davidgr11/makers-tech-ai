@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { SendHorizontal, Bot, Plus } from 'lucide-react';
+import { SendHorizontal, Bot, Plus, Zap, ListChecks, DollarSign, HelpCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ChatMessage, { MessageType } from './ChatMessage';
 import ProductSelector, { ProductCategory } from './ProductSelector';
@@ -14,12 +14,20 @@ import {
   getResponseForQuery 
 } from '@/utils/chatbotUtils';
 
+const QUICK_ACTIONS = [
+  { icon: <ListChecks className="h-4 w-4" />, label: 'See available products', query: 'Show me all available products' },
+  { icon: <DollarSign className="h-4 w-4" />, label: 'Check prices', query: 'What are your price ranges?' },
+  { icon: <Zap className="h-4 w-4" />, label: 'Get recommendations', query: 'I need product recommendations' },
+  { icon: <HelpCircle className="h-4 w-4" />, label: 'Help', query: 'What can you help me with?' },
+];
+
 const ChatInterface = () => {
   const [messages, setMessages] = useState<MessageType[]>([getInitialMessage()]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductCategory | undefined>();
   const [showProductSelector, setShowProductSelector] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(true);
   const messageEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   
@@ -30,24 +38,25 @@ const ChatInterface = () => {
     }
   }, [messages]);
   
-  const handleSendMessage = () => {
-    if (!inputValue.trim()) return;
+  const handleSendMessage = (text = inputValue.trim()) => {
+    if (!text) return;
     
     // Add user message
     const userMessage: MessageType = {
       id: generateId(),
       sender: 'user',
-      text: inputValue,
+      text: text,
       timestamp: new Date()
     };
     
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsTyping(true);
+    setShowQuickActions(false);
     
     // Simulate bot "typing" delay
     setTimeout(() => {
-      const botResponse = getResponseForQuery(inputValue, selectedProduct);
+      const botResponse = getResponseForQuery(text, selectedProduct);
       setMessages(prev => [...prev, botResponse]);
       setIsTyping(false);
     }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
@@ -80,6 +89,10 @@ const ChatInterface = () => {
     setShowProductSelector(prev => !prev);
   };
   
+  const handleQuickAction = (query: string) => {
+    handleSendMessage(query);
+  };
+  
   return (
     <div className="flex flex-col h-full bg-background/50 shadow-lg rounded-2xl border overflow-hidden">
       {/* Chat header */}
@@ -89,9 +102,9 @@ const ChatInterface = () => {
             <Bot className="h-4 w-4 text-primary" />
           </div>
           <div>
-            <h2 className="text-sm font-medium">Product Support</h2>
+            <h2 className="text-sm font-medium">Makers Tech Support</h2>
             <p className="text-xs text-muted-foreground">
-              {selectedProduct ? `Currently helping with: ${selectedProduct}` : 'How can I help you today?'}
+              {selectedProduct ? `Currently browsing: ${selectedProduct}` : 'How can I help you today?'}
             </p>
           </div>
         </div>
@@ -136,6 +149,28 @@ const ChatInterface = () => {
           {showProductSelector && (
             <div className="px-4 mt-4">
               <ProductSelector onSelectProduct={handleProductSelect} />
+            </div>
+          )}
+          
+          {showQuickActions && messages.length <= 2 && (
+            <div className="px-4 mt-4">
+              <div className="bg-secondary/50 rounded-lg p-3">
+                <h3 className="text-sm font-medium mb-2">Quick actions:</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {QUICK_ACTIONS.map((action, index) => (
+                    <Button 
+                      key={index} 
+                      variant="outline" 
+                      size="sm" 
+                      className="justify-start h-auto py-2 text-xs"
+                      onClick={() => handleQuickAction(action.query)}
+                    >
+                      {action.icon}
+                      <span className="ml-1.5">{action.label}</span>
+                    </Button>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
           
