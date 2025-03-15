@@ -9,7 +9,124 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      categories: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          category_id: string
+          company: string
+          created_at: string | null
+          id: string
+          image_url: string
+          long_description: string
+          name: string
+          price_mxn: number
+          price_usd: number
+          rating: number
+          short_description: string
+          updated_at: string | null
+        }
+        Insert: {
+          category_id: string
+          company: string
+          created_at?: string | null
+          id?: string
+          image_url: string
+          long_description: string
+          name: string
+          price_mxn: number
+          price_usd: number
+          rating: number
+          short_description: string
+          updated_at?: string | null
+        }
+        Update: {
+          category_id?: string
+          company?: string
+          created_at?: string | null
+          id?: string
+          image_url?: string
+          long_description?: string
+          name?: string
+          price_mxn?: number
+          price_usd?: number
+          rating?: number
+          short_description?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+        }
+        Insert: {
+          created_at?: string | null
+          id: string
+          role?: Database["public"]["Enums"]["user_role"]
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+        }
+        Relationships: []
+      }
+      sales: {
+        Row: {
+          id: string
+          product_id: string
+          quantity: number
+          sale_date: string | null
+        }
+        Insert: {
+          id?: string
+          product_id: string
+          quantity: number
+          sale_date?: string | null
+        }
+        Update: {
+          id?: string
+          product_id?: string
+          quantity?: number
+          sale_date?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sales_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +135,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "customer" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
