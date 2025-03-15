@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import Logo from './Logo';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -54,13 +55,16 @@ const LoginForm = () => {
   };
   
   return (
-    <div className="w-full max-w-md p-6 space-y-6 bg-card rounded-lg shadow-lg">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold">Makers Tech</h2>
-        <p className="text-muted-foreground mt-2">Sign in to your account</p>
+    <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg border border-gray-100">
+      <div className="text-center flex flex-col items-center gap-4">
+        <Logo size="lg" />
+        <div>
+          <h2 className="text-2xl font-bold mt-4">Welcome Back</h2>
+          <p className="text-muted-foreground mt-2">Sign in to your account</p>
+        </div>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -70,6 +74,7 @@ const LoginForm = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             autoComplete="email"
+            className="border-gray-200"
           />
         </div>
         
@@ -82,18 +87,23 @@ const LoginForm = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
+            className="border-gray-200"
           />
         </div>
         
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <Button 
+          type="submit" 
+          className="w-full bg-purple-600 hover:bg-purple-700" 
+          disabled={isLoading}
+        >
           {isLoading ? 'Signing in...' : 'Sign In'}
         </Button>
       </form>
       
-      <div className="text-center text-sm text-muted-foreground mt-4">
+      <div className="text-center text-sm text-muted-foreground mt-4 p-4 bg-gray-50 rounded-lg">
         <p>For demo purposes:</p>
-        <p>User account: user@example.com</p>
-        <p>Admin account: admin@example.com</p>
+        <p className="font-medium text-purple-600">User account: user@example.com</p>
+        <p className="font-medium text-green-600">Admin account: admin@example.com</p>
         <p>(Any password will work)</p>
       </div>
     </div>

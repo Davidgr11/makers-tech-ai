@@ -13,6 +13,7 @@ import {
   getProductGreeting, 
   getResponseForQuery 
 } from '@/utils/chatbotUtils';
+import Logo from './Logo';
 
 const QUICK_ACTIONS = [
   { icon: <ListChecks className="h-4 w-4" />, label: 'See available products', query: 'Show me all available products' },
@@ -94,12 +95,12 @@ const ChatInterface = () => {
   };
   
   return (
-    <div className="flex flex-col h-full bg-background/50 shadow-lg rounded-2xl border overflow-hidden">
+    <div className="flex flex-col h-full bg-white shadow-lg rounded-2xl border overflow-hidden">
       {/* Chat header */}
-      <div className="flex items-center justify-between p-4 border-b backdrop-blur-sm">
+      <div className="flex items-center justify-between p-4 border-b bg-white">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-            <Bot className="h-4 w-4 text-primary" />
+          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+            <Bot className="h-4 w-4 text-green-600" />
           </div>
           <div>
             <h2 className="text-sm font-medium">Makers Tech Support</h2>
@@ -112,7 +113,7 @@ const ChatInterface = () => {
         <Button 
           variant="ghost" 
           size="icon" 
-          className="h-8 w-8"
+          className="h-8 w-8 text-purple-600 hover:bg-purple-50"
           onClick={toggleProductSelector}
         >
           <Plus className="h-4 w-4" />
@@ -133,14 +134,14 @@ const ChatInterface = () => {
           
           {isTyping && (
             <div className="flex items-start gap-3 px-4 py-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Bot className="h-4 w-4 text-primary" />
+              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                <Bot className="h-4 w-4 text-green-600" />
               </div>
-              <div className="bg-secondary rounded-2xl px-4 py-3 shadow-sm">
+              <div className="bg-gray-100 rounded-2xl px-4 py-3 shadow-sm">
                 <div className="flex space-x-1">
-                  <div className="h-2 w-2 bg-primary/40 rounded-full animate-pulse" />
-                  <div className="h-2 w-2 bg-primary/40 rounded-full animate-pulse animate-delay-100" />
-                  <div className="h-2 w-2 bg-primary/40 rounded-full animate-pulse animate-delay-200" />
+                  <div className="h-2 w-2 bg-purple-400 rounded-full animate-pulse" />
+                  <div className="h-2 w-2 bg-purple-400 rounded-full animate-pulse animate-delay-100" />
+                  <div className="h-2 w-2 bg-purple-400 rounded-full animate-pulse animate-delay-200" />
                 </div>
               </div>
             </div>
@@ -154,7 +155,7 @@ const ChatInterface = () => {
           
           {showQuickActions && messages.length <= 2 && (
             <div className="px-4 mt-4">
-              <div className="bg-secondary/50 rounded-lg p-3">
+              <div className="bg-gray-50 rounded-lg p-3 border border-gray-100">
                 <h3 className="text-sm font-medium mb-2">Quick actions:</h3>
                 <div className="grid grid-cols-2 gap-2">
                   {QUICK_ACTIONS.map((action, index) => (
@@ -162,7 +163,7 @@ const ChatInterface = () => {
                       key={index} 
                       variant="outline" 
                       size="sm" 
-                      className="justify-start h-auto py-2 text-xs"
+                      className="justify-start h-auto py-2 text-xs border-green-200 hover:bg-green-50 text-green-700"
                       onClick={() => handleQuickAction(action.query)}
                     >
                       {action.icon}
@@ -180,7 +181,7 @@ const ChatInterface = () => {
       
       {/* Input area */}
       <div className={cn(
-        "p-4 border-t transition-all duration-300 backdrop-blur-sm",
+        "p-4 border-t transition-all duration-300 bg-white",
         isTyping && "opacity-60"
       )}>
         <form 
@@ -197,7 +198,7 @@ const ChatInterface = () => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isTyping}
-            className="flex-1 py-6 bg-background/60 border-muted"
+            className="flex-1 py-6 bg-white border-gray-200"
           />
           <Button 
             type="submit" 
@@ -205,8 +206,8 @@ const ChatInterface = () => {
             disabled={isTyping || !inputValue.trim()}
             className={cn(
               "h-10 w-10 rounded-full transition-transform duration-200",
-              inputValue.trim() && "bg-primary hover:bg-primary/90",
-              !inputValue.trim() && "bg-muted text-muted-foreground"
+              inputValue.trim() && "bg-purple-600 hover:bg-purple-700",
+              !inputValue.trim() && "bg-gray-200 text-gray-400"
             )}
           >
             <SendHorizontal className="h-4 w-4" />

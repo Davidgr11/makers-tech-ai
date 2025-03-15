@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 0 0% 100%;
     --foreground: 222 47% 11.2%;
 
     --card: 0 0% 100%;
@@ -16,7 +16,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11.2%;
 
-    --primary: 210 100% 50%;
+    --primary: 270 70% 60%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -25,7 +25,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215 16% 47%;
 
-    --accent: 210 40% 96.1%;
+    --accent: 150 70% 45%;
     --accent-foreground: 222 47% 11.2%;
 
     --destructive: 0 84% 60%;
@@ -33,7 +33,7 @@
 
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 222 84% 4.9%;
+    --ring: 270 70% 60%;
 
     --radius: 0.6rem;
 
@@ -57,7 +57,7 @@
     --popover: 222 47% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 60%;
+    --primary: 270 70% 70%;
     --primary-foreground: 222 47% 11.2%;
 
     --secondary: 217 33% 17.5%;
@@ -66,7 +66,7 @@
     --muted: 217 33% 17.5%;
     --muted-foreground: 215 20% 65%;
 
-    --accent: 217 33% 17.5%;
+    --accent: 150 70% 50%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 63% 31%;
@@ -74,7 +74,7 @@
 
     --border: 217 33% 17.5%;
     --input: 217 33% 17.5%;
-    --ring: 213 27% 84%;
+    --ring: 270 70% 70%;
     
     --sidebar-background: 240 6% 10%;
     --sidebar-foreground: 240 5% 96%;
@@ -117,11 +117,11 @@
   }
 
   .message-user {
-    @apply message-bubble bg-primary text-primary-foreground ml-auto animate-fade-in;
+    @apply message-bubble bg-purple-600 text-white ml-auto animate-fade-in;
   }
 
   .message-bot {
-    @apply message-bubble bg-secondary text-secondary-foreground mr-auto animate-fade-in;
+    @apply message-bubble bg-green-50 text-gray-800 border border-green-100 mr-auto animate-fade-in;
   }
 
   .input-focus-ring {

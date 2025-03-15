@@ -61,14 +61,16 @@ const ProductSelector = ({ onSelectProduct }: ProductSelectorProps) => {
             key={option.value}
             variant="outline"
             className={cn(
-              "relative flex items-start justify-start py-4 px-4 gap-3 border hover-scale transition-all h-auto",
-              hoveredItem === option.value && "border-primary/50 bg-primary/5"
+              "relative flex items-start justify-start py-4 px-4 gap-3 hover-scale transition-all h-auto",
+              hoveredItem === option.value 
+                ? "border-purple-300 bg-purple-50" 
+                : "border-gray-200"
             )}
             onClick={() => onSelectProduct(option.value)}
             onMouseEnter={() => setHoveredItem(option.value)}
             onMouseLeave={() => setHoveredItem(null)}
           >
-            <div className="text-primary mt-0.5">{option.icon}</div>
+            <div className="text-green-500 mt-0.5">{option.icon}</div>
             <div className="text-left">
               <span className="font-medium block">{option.label}</span>
               <span className="text-xs text-muted-foreground">{option.description}</span>
@@ -76,7 +78,7 @@ const ProductSelector = ({ onSelectProduct }: ProductSelectorProps) => {
             
             <ChevronRight 
               className={cn(
-                "absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary transition-opacity duration-200",
+                "absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-purple-600 transition-opacity duration-200",
                 hoveredItem === option.value ? "opacity-100" : "opacity-0"
               )} 
             />

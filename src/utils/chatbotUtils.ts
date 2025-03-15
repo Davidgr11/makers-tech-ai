@@ -1,4 +1,3 @@
-
 import { MessageType } from '@/components/ChatMessage';
 import { ProductCategory } from '@/components/ProductSelector';
 import { getAvailableProducts, getProductById, products, Product, UserPreference, getProductRecommendations } from '@/data/products';
@@ -21,19 +20,16 @@ export const getInitialMessage = (): MessageType => {
 
 // Get product-specific greeting
 export const getProductGreeting = (product: ProductCategory): MessageType => {
-  const greetings: Record<ProductCategory, string> = {
-    'Laptops': "I can help with laptops. We have several models from budget-friendly to high-performance. What features are you looking for?",
-    'Smartphones': "Looking for a smartphone? I can help you find the perfect one based on your needs. What's most important to you?",
-    'Audio': "Our audio devices offer premium sound quality. Are you looking for headphones, speakers, or something else?",
-    'Wearables': "Wearable tech can help track fitness, stay connected, and more. What kind of wearable are you interested in?",
-    'Cameras': "From professional DSLRs to compact point-and-shoots, we have cameras for every need. What will you be photographing?",
-    'TVs': "Our TVs range from budget-friendly to premium 8K models. What size and features are you looking for?"
+  const ProductGreetings: Record<ProductCategory, string> = {
+    'Laptops': "What kind of laptop are you looking for? We have models for productivity, gaming, and creative work.",
+    'Smartphones': "Looking for a new smartphone? Let me know your requirements and I can recommend options.",
+    'Tablets': "Our tablets range from budget to premium. What will you primarily use it for?"
   };
 
   return {
     id: generateId(),
     sender: 'bot',
-    text: greetings[product],
+    text: ProductGreetings[product],
     timestamp: new Date(),
     productCategory: product,
     animate: true
