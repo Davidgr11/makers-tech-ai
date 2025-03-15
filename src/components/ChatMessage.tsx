@@ -4,6 +4,16 @@ import { cn } from '@/lib/utils';
 import AnimatedTyping from './AnimatedTyping';
 import { Bot, User } from 'lucide-react';
 
+export type ProductRecommendation = {
+  id: string;
+  name: string;
+  company: string;
+  image: string;
+  price: number;
+  rating: number;
+  description: string;
+};
+
 export type MessageType = {
   id: string;
   sender: 'user' | 'bot';
@@ -11,6 +21,12 @@ export type MessageType = {
   timestamp: Date;
   productCategory?: string;
   animate?: boolean;
+  products?: ProductRecommendation[];
+  recommendations?: {
+    top: ProductRecommendation[];
+    good: ProductRecommendation[];
+    other: ProductRecommendation[];
+  };
 };
 
 interface ChatMessageProps {
@@ -54,8 +70,8 @@ const ChatMessage = ({ message, index, isLastMessage }: ChatMessageProps) => {
       )}
     >
       {isBot && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-          <Bot className="h-4 w-4 text-primary" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+          <Bot className="h-4 w-4 text-green-600" />
         </div>
       )}
       
@@ -63,8 +79,8 @@ const ChatMessage = ({ message, index, isLastMessage }: ChatMessageProps) => {
         className={cn(
           'relative rounded-2xl px-4 py-3 max-w-[85%] shadow-sm',
           isBot 
-            ? 'bg-secondary text-secondary-foreground' 
-            : 'bg-primary text-primary-foreground'
+            ? 'bg-white border border-gray-100 text-gray-800' 
+            : 'bg-purple-600 text-white'
         )}
       >
         {message.animate && isBot ? (
@@ -75,7 +91,7 @@ const ChatMessage = ({ message, index, isLastMessage }: ChatMessageProps) => {
             className="block text-sm"
           />
         ) : (
-          <p className="text-sm leading-relaxed">{message.text}</p>
+          <p className="text-sm leading-relaxed whitespace-pre-line">{message.text}</p>
         )}
         
         <div className={cn(
@@ -87,8 +103,8 @@ const ChatMessage = ({ message, index, isLastMessage }: ChatMessageProps) => {
       </div>
       
       {!isBot && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-          <User className="h-4 w-4 text-primary" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+          <User className="h-4 w-4 text-purple-600" />
         </div>
       )}
     </div>

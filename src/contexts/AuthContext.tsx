@@ -16,6 +16,7 @@ export interface UserProfile {
 interface AuthContextType {
   user: UserProfile | null;
   login: (email: string, password: string) => Promise<boolean>;
+  signup: (email: string, password: string, role: UserRole) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -92,6 +93,69 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
     }
   };
   
+  const signup = async (email: string, password: string, role: UserRole): Promise<boolean> => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            role: role,
+            name: email.split('@')[0] || 'User',
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Signup error:', error.message);
+        toast({
+          title: 'Signup failed',
+          description: error.message,
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      if (data.user) {
+        // Create a user profile
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert([
+            { 
+              id: data.user.id, 
+              role: role 
+            }
+          ]);
+
+        if (profileError) {
+          console.error('Profile creation error:', profileError.message);
+          toast({
+            title: 'Profile creation failed',
+            description: profileError.message,
+            variant: 'destructive',
+          });
+          return false;
+        }
+
+        toast({
+          title: 'Signup successful',
+          description: 'Welcome to Makers Tech! You can now log in.',
+        });
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Signup error:', error);
+      toast({
+        title: 'Signup error',
+        description: 'An unexpected error occurred during signup.',
+        variant: 'destructive',
+      });
+      return false;
+    }
+  };
+  
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       // Try Supabase authentication first
@@ -158,6 +222,7 @@ export const AuthProvider: React.FC<{children: ReactNode}> = ({ children }) => {
   const value = {
     user,
     login,
+    signup,
     logout,
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin'
