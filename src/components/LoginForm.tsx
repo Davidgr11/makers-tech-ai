@@ -208,10 +208,6 @@ const LoginForm = () => {
                   <RadioGroupItem value="customer" id="customer" />
                   <Label htmlFor="customer" className="cursor-pointer">Customer</Label>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="admin" id="admin" />
-                  <Label htmlFor="admin" className="cursor-pointer">Admin</Label>
-                </div>
               </RadioGroup>
             </div>
             
