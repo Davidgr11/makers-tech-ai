@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,15 +6,44 @@ import { Bot, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import Logo from './Logo';
 import ChatInterface from './ChatInterface';
-import { products } from '@/data/products';
 import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+
+interface Product {
+  id: string;
+  name: string;
+  company: string;
+  image_url: string;
+  rating: number;
+  price_usd: number;
+  short_description: string;
+  stock: number;
+  category_id: string;
+}
 
 const CustomerDashboard = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
   const { toast } = useToast();
   const navigate = useNavigate();
   const chatContainerRef = useRef(null);
   const { logout } = useAuth();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*');
+        if (error) throw error;
+        setProducts(data || []);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const toggleChat = () => {
     setIsChatOpen((prev) => !prev);
@@ -26,6 +55,10 @@ const CustomerDashboard = () => {
         }
       }, 300);
     }
+  };
+
+  const handleProductClick = (productId: string) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -92,10 +125,11 @@ const CustomerDashboard = () => {
               <Card
                 key={product.id}
                 className="hover:shadow-xl transition-shadow cursor-pointer"
+                onClick={() => handleProductClick(product.id)}
               >
                 <CardContent className="p-4">
                   <img
-                    src={product.image}
+                    src={product.image_url}
                     alt={product.name}
                     className="w-full h-48 object-cover rounded-md mb-4"
                   />
@@ -103,7 +137,10 @@ const CustomerDashboard = () => {
                     {product.name}
                   </h3>
                   <p className="text-lg font-bold text-gray-800">
-                    ${product.price.USD.toFixed(2)}
+                    {new Intl.NumberFormat('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    }).format(product.price_usd)}
                   </p>
                   {product.stock === 0 ? (
                     <span className="text-red-500 text-sm">Out of Stock</span>
@@ -129,6 +166,7 @@ const CustomerDashboard = () => {
             className="mt-4 md:mt-0"
             onClick={() => {
               logout();
+              navigate('/login');
             }}
           >
             Logout
